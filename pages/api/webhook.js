@@ -5,6 +5,11 @@ const SHOPIFY_API_PASSWORD = process.env.SHOPIFY_API_PASSWORD;
 const SHOPIFY_STORE_URL = process.env.SHOPIFY_STORE_URL;
 
 export default async function handler(req, res) {
+
+    console.log('SHOPIFY_API_KEY:', SHOPIFY_API_KEY);
+console.log('SHOPIFY_API_PASSWORD:', SHOPIFY_API_PASSWORD);
+console.log('SHOPIFY_STORE_URL:', SHOPIFY_STORE_URL);
+
     console.log("📩 Webhook received!");
 
     if (req.method !== 'POST') {
@@ -13,6 +18,8 @@ export default async function handler(req, res) {
     }
 
     const { email, line_items } = req.body;
+    console.log("Line items:", line_items);
+
 
     let totalCoins = 0;
 
