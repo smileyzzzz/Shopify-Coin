@@ -18,10 +18,12 @@ export default async function handler(req, res) {
 
     // Calculate total coins based on order items
     line_items.forEach((item) => {
-        if (item.title.includes("1 Gacha Coin")) {
-            totalCoins += item.quantity; // Each "1 Gacha Coin" adds 1 coin
-        } else if (item.title.includes("3 Gacha Coins")) {
-            totalCoins += item.quantity * 3; // Each "3 Gacha Coins" adds 3 coins
+        if (item.title.includes("Lucky Spin Coin")) {
+            if (item.variant_title.includes('1')){
+                totalCoins += item.quantity; // Each "1 Gacha Coin" adds 1 coin
+            } else if (item.variant_title.includes('3')){
+                totalCoins += item.quantity * 3; // Each "1 Gacha Coin" adds 1 coin
+            }
         }
     });
 
