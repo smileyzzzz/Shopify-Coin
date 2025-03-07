@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     }
 
     const { email, line_items } = req.body;
-    console.log("Line items:", line_items);
 
     let totalCoins = 0;
 
@@ -83,6 +82,9 @@ async function updateCustomerMetafield(customerId, totalCoins) {
         const existingCoinMetafield = currentMetafields.find(mf => mf.key === 'coins_balance' && mf.namespace === 'gacha');
 
         if (existingCoinMetafield) {
+
+            totalCoins = parseInt(existingCoinMetafield.value, 10) + totalCoins;
+
             // Update existing metafield
             await axios({
                 method: 'put',
