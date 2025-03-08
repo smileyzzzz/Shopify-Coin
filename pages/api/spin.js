@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const SHOPIFY_STORE_URL = process.env.SHOPIFY_STORE_URL;
-const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN;
+const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_API_KEY;
 
 const PRIZES = [
   { name: "Common Prize", probability: 0.7 },
