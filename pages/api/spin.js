@@ -1,10 +1,4 @@
-import express from "express";
 import axios from "axios";
-import dotenv from "dotenv";
-
-dotenv.config();
-const app = express();
-app.use(express.json());
 
 const SHOPIFY_STORE_URL = process.env.SHOPIFY_STORE_URL;
 const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN;
@@ -19,17 +13,17 @@ const PRIZES = [
 function pickPrize() {
   const rand = Math.random();
   let cumulativeProbability = 0;
-
+  
   for (const prize of PRIZES) {
     cumulativeProbability += prize.probability;
     if (rand < cumulativeProbability) {
       return prize.name;
     }
   }
-  return PRIZES[0].name; // Fallback (shouldn't happen)
+  return PRIZES[0].name;
 }
 
-// Get customer metafields
+// Fetch customer metafields from Shopify
 async function getCustomerMetafields(customerId) {
   try {
     const response = await axios.get(
@@ -38,12 +32,12 @@ async function getCustomerMetafields(customerId) {
     );
     return response.data.metafields;
   } catch (error) {
-    console.error("Error fetching customer metafields:", error);
+    console.error("Error fetching metafields:", error);
     return null;
   }
 }
 
-// Update customer's coin balance
+// Update coin balance
 async function updateCoinBalance(customerId, newBalance) {
   try {
     await axios.post(
@@ -96,8 +90,12 @@ async function storePrize(customerId, prize) {
   }
 }
 
-// Handle spin request
-app.post("/gacha/spin", async (req, res) => {
+// Next.js API route handler
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
   const { customerId } = req.body;
 
   if (!customerId) {
@@ -124,8 +122,4 @@ app.post("/gacha/spin", async (req, res) => {
   await storePrize(customerId, prize);
 
   res.json({ prize, remainingCoins: coins });
-});
-
-// Start the server
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
