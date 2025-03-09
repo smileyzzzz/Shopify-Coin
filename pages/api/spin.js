@@ -131,6 +131,7 @@ export default async function handler(req, res) {
     res.json({ prize, remainingCoins: coins });
 
     } catch (error) {
+        console.error("Internal Server Error:", error); // ✅ Log the error
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
