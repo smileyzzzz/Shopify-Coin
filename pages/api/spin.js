@@ -92,9 +92,14 @@ async function storePrize(customerId, prize) {
 
 // Next.js API route handler
 export default async function handler(req, res) {
+    console.log("Received request:", req.method);
+
   if (req.method !== "POST") {
+    console.log("405 - Method Not Allowed");
     return res.status(405).json({ error: "Method not allowed" });
   }
+
+  console.log("Processing gacha spin...");
 
   const { customerId } = req.body;
 
@@ -102,24 +107,30 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Customer ID required" });
   }
 
-  // Fetch customer metafields
-  const metafields = await getCustomerMetafields(customerId);
-  const coinField = metafields.find(
-    (mf) => mf.namespace === "gacha" && mf.key === "coins_balance"
-  );
-  let coins = coinField ? parseInt(coinField.value) : 0;
+  try {
 
-  if (coins <= 0) {
-    return res.status(400).json({ error: "Not enough coins" });
-  }
+    // Fetch customer metafields
+    const metafields = await getCustomerMetafields(customerId);
+    const coinField = metafields.find(
+        (mf) => mf.namespace === "gacha" && mf.key === "coins_balance"
+    );
+    let coins = coinField ? parseInt(coinField.value) : 0;
 
-  // Deduct a coin
-  coins -= 1;
-  await updateCoinBalance(customerId, coins);
+    if (coins <= 0) {
+        return res.status(400).json({ error: "Not enough coins" });
+    }
 
-  // Determine prize
-  const prize = pickPrize();
-  await storePrize(customerId, prize);
+    // Deduct a coin
+    coins -= 1;
+    await updateCoinBalance(customerId, coins);
 
-  res.json({ prize, remainingCoins: coins });
+    // Determine prize
+    const prize = pickPrize();
+    await storePrize(customerId, prize);
+
+    res.json({ prize, remainingCoins: coins });
+
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 }
