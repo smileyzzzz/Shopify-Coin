@@ -94,6 +94,16 @@ async function storePrize(customerId, prize) {
 export default async function handler(req, res) {
     console.log("Received request:", req.method);
 
+
+
+    // Handle preflight (OPTIONS) requests for CORS
+  if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Origin", "*");  // Adjust for security if needed
+    res.setHeader("Access-Control-Allow-Methods", "POST");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     console.log("405 - Method Not Allowed");
     return res.status(405).json({ error: "Method not allowed" });
