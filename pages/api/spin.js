@@ -119,15 +119,19 @@ export default async function handler(req, res) {
     // Handle CORS preflight request
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", "https://cafedeyume.com");
-    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     return res.status(200).end();
+
   }
 
   if (req.method === "POST") {
+    res.setHeader("Access-Control-Allow-Origin", "https://cafedeyume.com");
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     // Your existing code to handle POST request for the spin
     console.log("Processing gacha spin...");
+    console.log(res.getHeaders());
 
     const { customerId } = req.body;
 
