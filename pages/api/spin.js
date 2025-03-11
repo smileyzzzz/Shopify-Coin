@@ -151,8 +151,8 @@ export default async function handler(req, res) {
 
     res.json({ prize, remainingCoins: coins });
 
-    // eslint-disable-next-line no-unused-vars
     } catch (error) {
+        console.error("Error occurred:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
