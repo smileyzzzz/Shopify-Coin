@@ -5,30 +5,30 @@ const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_API_KEY;
 
 const PRIZES = [
   // Common Prizes (65%)
-  { name: "Cute Sticker Pack", rarity: "Common", probability: 0.10, image: "/assets/sticker-pack.jpg" },
-  { name: "Mini Keychain", rarity: "Common", probability: 0.10, image: "/assets/mini-keychain.jpg" },
-  { name: "Small Plushie", rarity: "Common", probability: 0.10, image: "/assets/small-plushie.jpg" },
-  { name: "Postcard Set", rarity: "Common", probability: 0.05, image: "/assets/postcard-set.jpg" },
-  { name: "Acrylic Pin", rarity: "Common", probability: 0.05, image: "/assets/acrylic-pin.jpg" },
-  { name: "Random Gacha Capsule", rarity: "Common", probability: 0.05, image: "/assets/gacha-capsule.jpg" },
-  { name: "Phone Charm", rarity: "Common", probability: 0.05, image: "/assets/phone-charm.jpg" },
-  { name: "Cute Socks", rarity: "Common", probability: 0.05, image: "/assets/cute-socks.jpg" },
-  { name: "Sticker Sheet", rarity: "Common", probability: 0.03, image: "/assets/sticker-sheet.jpg" },
-  { name: "Character Badge", rarity: "Common", probability: 0.03, image: "/assets/character-badge.jpg" },
-  { name: "Mini Notebook", rarity: "Common", probability: 0.02, image: "/assets/mini-notebook.jpg" },
-  { name: "Art Print", rarity: "Common", probability: 0.01, image: "/assets/art-print.jpg" },
-  { name: "Cafe Coupon", rarity: "Common", probability: 0.01, image: "/assets/cafe-coupon.jpg" },
+  { name: "Cute Sticker Pack", probability: 0.10, image: "/assets/sticker-pack.jpg" },
+  { name: "Mini Keychain", probability: 0.10, image: "/assets/mini-keychain.jpg" },
+  { name: "Small Plushie", probability: 0.10, image: "/assets/small-plushie.jpg" },
+  { name: "Postcard Set", probability: 0.05, image: "/assets/postcard-set.jpg" },
+  { name: "Acrylic Pin", probability: 0.05, image: "/assets/acrylic-pin.jpg" },
+  { name: "Random Gacha Capsule",  probability: 0.05, image: "/assets/gacha-capsule.jpg" },
+  { name: "Phone Charm", probability: 0.05, image: "/assets/phone-charm.jpg" },
+  { name: "Cute Socks", probability: 0.05, image: "/assets/cute-socks.jpg" },
+  { name: "Sticker Sheet", probability: 0.03, image: "/assets/sticker-sheet.jpg" },
+  { name: "Character Badge", probability: 0.03, image: "/assets/character-badge.jpg" },
+  { name: "Mini Notebook", probability: 0.02, image: "/assets/mini-notebook.jpg" },
+  { name: "Art Print", probability: 0.01, image: "/assets/art-print.jpg" },
+  { name: "Cafe Coupon", probability: 0.01, image: "/assets/cafe-coupon.jpg" },
 
   // Rare Prizes (25%)
-  { name: "Deluxe Plushie", rarity: "Rare", probability: 0.07, image: "/assets/deluxe-plushie.jpg" },
-  { name: "Special Edition Pin", rarity: "Rare", probability: 0.06, image: "/assets/special-pin.jpg" },
-  { name: "Holographic Art Print", rarity: "Rare", probability: 0.05, image: "/assets/holo-art-print.jpg" },
-  { name: "Themed Tote Bag", rarity: "Rare", probability: 0.04, image: "/assets/themed-tote.jpg" },
-  { name: "Limited Edition Keychain", rarity: "Rare", probability: 0.03, image: "/assets/limited-keychain.jpg" },
+  { name: "Deluxe Plushie", probability: 0.07, image: "/assets/deluxe-plushie.jpg" },
+  { name: "Special Edition Pin", probability: 0.06, image: "/assets/special-pin.jpg" },
+  { name: "Holographic Art Print", probability: 0.05, image: "/assets/holo-art-print.jpg" },
+  { name: "Themed Tote Bag", probability: 0.04, image: "/assets/themed-tote.jpg" },
+  { name: "Limited Edition Keychain", probability: 0.03, image: "/assets/limited-keychain.jpg" },
 
   // Ultra Rare Prizes (10%)
-  { name: "VIP Cafe Membership", rarity: "Ultra Rare", probability: 0.05, image: "/assets/vip-membership.jpg" },
-  { name: "Exclusive Collector’s Box", rarity: "Ultra Rare", probability: 0.05, image: "/assets/collectors-box.jpg" }
+  { name: "VIP Cafe Membership", probability: 0.05, image: "/assets/vip-membership.jpg" },
+  { name: "Exclusive Collector’s Box", probability: 0.05, image: "/assets/collectors-box.jpg" }
 ];
 
 // Function to pick a prize based on weighted probabilities
@@ -119,6 +119,7 @@ export default async function handler(req, res) {
     // Handle CORS preflight request
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "https://cafedeyume.com");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     return res.status(200).end();
