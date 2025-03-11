@@ -118,50 +118,50 @@ export default async function handler(req, res) {
 
     // Handle CORS preflight request
   if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Origin", "https://cafedeyume.com");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     return res.status(200).end();
   }
 
-  if (req.method !== "POST") {
-    console.log("405 - Method Not Allowed");
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method === "POST") {
+    // Your existing code to handle POST request for the spin
+    console.log("Processing gacha spin...");
 
-  console.log("Processing gacha spin...");
+    const { customerId } = req.body;
 
-  const { customerId } = req.body;
-
-  if (!customerId) {
-    return res.status(400).json({ error: "Customer ID required" });
-  }
-
-  try {
-    // Fetch customer metafields
-    const metafields = await getCustomerMetafields(customerId);
-    const coinField = metafields.find(
-        (mf) => mf.namespace === "gacha" && mf.key === "coins_balance"
-    );
-    let coins = coinField ? parseInt(coinField.value) : 0;
-
-    if (coins <= 0) {
-        return res.status(400).json({ error: "Not enough coins" });
+    if (!customerId) {
+        return res.status(400).json({ error: "Customer ID required" });
     }
 
-    // Deduct a coin
-    coins -= 1;
-    await updateCoinBalance(customerId, coins);
+    try {
+        const metafields = await getCustomerMetafields(customerId);
+        const coinField = metafields.find(
+            (mf) => mf.namespace === "gacha" && mf.key === "coins_balance"
+        );
+        let coins = coinField ? parseInt(coinField.value) : 0;
 
-    // Determine prize
-    const prize = pickPrize();
-    await storePrize(customerId, prize);
+        if (coins <= 0) {
+            return res.status(400).json({ error: "Not enough coins" });
+        }
 
-    res.json({ prize, remainingCoins: coins });
+        // Deduct a coin
+        coins -= 1;
+        await updateCoinBalance(customerId, coins);
+
+        // Determine prize
+        const prize = pickPrize();
+        await storePrize(customerId, prize);
+
+        res.json({ prize, remainingCoins: coins });
 
     } catch (error) {
         console.error("Error occurred:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
+  } else {
+      console.error("Error occurred:", error);
+      res.status(405).json({ error: "Method Not Allowed" });
+  }
 }
