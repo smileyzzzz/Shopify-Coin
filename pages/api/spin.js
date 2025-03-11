@@ -4,12 +4,34 @@ const SHOPIFY_STORE_URL = process.env.SHOPIFY_STORE_URL;
 const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_API_KEY;
 
 const PRIZES = [
-  { name: "Common Prize", probability: 0.7 },
-  { name: "Rare Prize", probability: 0.25 },
-  { name: "Ultra Rare Prize", probability: 0.05 }
+  // Common Prizes (65%)
+  { name: "Cute Sticker Pack", rarity: "Common", probability: 0.10, image: "/assets/sticker-pack.jpg" },
+  { name: "Mini Keychain", rarity: "Common", probability: 0.10, image: "/assets/mini-keychain.jpg" },
+  { name: "Small Plushie", rarity: "Common", probability: 0.10, image: "/assets/small-plushie.jpg" },
+  { name: "Postcard Set", rarity: "Common", probability: 0.05, image: "/assets/postcard-set.jpg" },
+  { name: "Acrylic Pin", rarity: "Common", probability: 0.05, image: "/assets/acrylic-pin.jpg" },
+  { name: "Random Gacha Capsule", rarity: "Common", probability: 0.05, image: "/assets/gacha-capsule.jpg" },
+  { name: "Phone Charm", rarity: "Common", probability: 0.05, image: "/assets/phone-charm.jpg" },
+  { name: "Cute Socks", rarity: "Common", probability: 0.05, image: "/assets/cute-socks.jpg" },
+  { name: "Sticker Sheet", rarity: "Common", probability: 0.03, image: "/assets/sticker-sheet.jpg" },
+  { name: "Character Badge", rarity: "Common", probability: 0.03, image: "/assets/character-badge.jpg" },
+  { name: "Mini Notebook", rarity: "Common", probability: 0.02, image: "/assets/mini-notebook.jpg" },
+  { name: "Art Print", rarity: "Common", probability: 0.01, image: "/assets/art-print.jpg" },
+  { name: "Cafe Coupon", rarity: "Common", probability: 0.01, image: "/assets/cafe-coupon.jpg" },
+
+  // Rare Prizes (25%)
+  { name: "Deluxe Plushie", rarity: "Rare", probability: 0.07, image: "/assets/deluxe-plushie.jpg" },
+  { name: "Special Edition Pin", rarity: "Rare", probability: 0.06, image: "/assets/special-pin.jpg" },
+  { name: "Holographic Art Print", rarity: "Rare", probability: 0.05, image: "/assets/holo-art-print.jpg" },
+  { name: "Themed Tote Bag", rarity: "Rare", probability: 0.04, image: "/assets/themed-tote.jpg" },
+  { name: "Limited Edition Keychain", rarity: "Rare", probability: 0.03, image: "/assets/limited-keychain.jpg" },
+
+  // Ultra Rare Prizes (10%)
+  { name: "VIP Cafe Membership", rarity: "Ultra Rare", probability: 0.05, image: "/assets/vip-membership.jpg" },
+  { name: "Exclusive Collector’s Box", rarity: "Ultra Rare", probability: 0.05, image: "/assets/collectors-box.jpg" }
 ];
 
-// Function to pick a prize based on probabilities
+// Function to pick a prize based on weighted probabilities
 function pickPrize() {
   const rand = Math.random();
   let cumulativeProbability = 0;
@@ -17,10 +39,10 @@ function pickPrize() {
   for (const prize of PRIZES) {
     cumulativeProbability += prize.probability;
     if (rand < cumulativeProbability) {
-      return prize.name;
+      return prize;
     }
   }
-  return PRIZES[0].name;
+  return PRIZES[0]; // Default fallback
 }
 
 // Fetch customer metafields from Shopify
@@ -94,16 +116,6 @@ async function storePrize(customerId, prize) {
 export default async function handler(req, res) {
     console.log("Received request:", req.method);
 
-
-
-    // Handle preflight (OPTIONS) requests for CORS
-  if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");  // Adjust for security if needed
-    res.setHeader("Access-Control-Allow-Methods", "POST");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    return res.status(200).end();
-  }
-
   if (req.method !== "POST") {
     console.log("405 - Method Not Allowed");
     return res.status(405).json({ error: "Method not allowed" });
@@ -118,7 +130,6 @@ export default async function handler(req, res) {
   }
 
   try {
-
     // Fetch customer metafields
     const metafields = await getCustomerMetafields(customerId);
     const coinField = metafields.find(
@@ -141,7 +152,6 @@ export default async function handler(req, res) {
     res.json({ prize, remainingCoins: coins });
 
     } catch (error) {
-        console.error("Internal Server Error:", error); // ✅ Log the error
         res.status(500).json({ error: "Internal Server Error" });
     }
 }
