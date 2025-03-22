@@ -45,6 +45,14 @@ function pickPrize() {
   return PRIZES[0]; // Default fallback
 }
 
+export default function handler(req, res) {
+  if (req.method === "GET") {
+    return res.status(200).json({ prizes: PRIZES });
+  } else {
+    return res.status(405).json({ error: "Method Not Allowed" });
+  }
+}
+
 // Fetch customer metafields from Shopify
 async function getCustomerMetafields(customerId) {
   try {
