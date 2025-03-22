@@ -31,6 +31,8 @@ const PRIZES = [
   { name: "Exclusive Collector’s Box", probability: 0.05, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/maruapproved.jpg?v=1731724532" }
 ];
 
+window.PRIZES = PRIZES;
+
 // Function to pick a prize based on weighted probabilities
 function pickPrize() {
   const rand = Math.random();
