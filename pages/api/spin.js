@@ -125,6 +125,11 @@ export default async function handler(req, res) {
 
   }
 
+  if (req.method === "GET") {
+    // Return the prize list when the frontend makes a GET request
+    return res.status(200).json({ prizes: PRIZES });
+}
+
   if (req.method === "POST") {
     // Your existing code to handle POST request for the spin
     console.log("Processing gacha spin...");
@@ -153,7 +158,7 @@ export default async function handler(req, res) {
         const prize = pickPrize();
         await storePrize(customerId, prize);
 
-        res.json({ prize, remainingCoins: coins, PRIZES});
+        res.json({ prize, remainingCoins: coins});
 
     } catch (error) {
         console.error("Error occurred:", error);
