@@ -117,24 +117,20 @@ async function storePrize(customerId, prize) {
 // Next.js API route handler
 export default async function handler(req, res) {
     console.log("Received request:", req.method);
-
-    // Handle CORS preflight request
-  if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", "https://cafedeyume.com");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+
+    // Handle CORS preflight request
+  if (req.method === "OPTIONS") {
     return res.status(200).end();
 
   }
 
   if (req.method === "POST") {
-    res.setHeader("Access-Control-Allow-Origin", "https://cafedeyume.com");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     // Your existing code to handle POST request for the spin
     console.log("Processing gacha spin...");
-    console.log(res.getHeaders());
-
     const { customerId } = req.body;
 
     if (!customerId) {
