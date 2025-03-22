@@ -45,14 +45,6 @@ function pickPrize() {
   return PRIZES[0]; // Default fallback
 }
 
-export default function handler(req, res) {
-  if (req.method === "GET") {
-    return res.status(200).json({ prizes: PRIZES });
-  } else {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
-}
-
 // Fetch customer metafields from Shopify
 async function getCustomerMetafields(customerId) {
   try {
@@ -161,7 +153,7 @@ export default async function handler(req, res) {
         const prize = pickPrize();
         await storePrize(customerId, prize);
 
-        res.json({ prize, remainingCoins: coins });
+        res.json({ prize, remainingCoins: coins, PRIZES});
 
     } catch (error) {
         console.error("Error occurred:", error);
