@@ -27,3 +27,8 @@ const PRIZES = [
   ];
   
   export default PRIZES;
+
+  // pages/api/prizes.js
+export default function handler(req, res) {
+    res.status(200).json(PRIZES);
+  }
