@@ -18,8 +18,8 @@ const PRIZES = [
   { name: "Calico Coffee", probability: 0.05, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/coffee_calico.png?v=1742697048" },
 
   { name: "Milk Beary", probability: 0.02, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/milkbeary.png?v=1742697049" },
-  { name: "Onigiri Buddy", probability: 0.01, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/onigiri.png?v=1742697048" },
-  { name: "Boba Kitty", probability: 0.01, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/boba_kitty.png?v=1742697050" },
+  { name: "Onigiri Buddy", probability: 0.02, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/onigiri.png?v=1742697048" },
+  { name: "Boba Kitty", probability: 0.02, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/boba_kitty.png?v=1742697050" },
 
 ];
 
