@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     try {
         // Fetch customer by email
         const customer = await getCustomerByEmail(email);
-        
+
         if (customer) {
             // Update customer's metafield with the total number of coins
             await updateCustomerMetafield(customer.id, totalCoins);
@@ -79,7 +79,7 @@ async function updateCustomerMetafield(customerId, totalCoins) {
         });
 
         const currentMetafields = response.data.metafields;
-        const existingCoinMetafield = currentMetafields.find(mf => mf.key === 'coins_balance' && mf.namespace === 'gacha');
+        const existingCoinMetafield = currentMetafields.find(mf => mf.key === 'coins_balance' && mf.namespace === 'custom');
 
         if (existingCoinMetafield) {
 
@@ -112,7 +112,7 @@ async function updateCustomerMetafield(customerId, totalCoins) {
                 },
                 data: {
                     metafield: {
-                        namespace: 'gacha', // Proper namespace
+                        namespace: 'custom', // Proper namespace
                         key: 'coins_balance',
                         value: totalCoins.toString(),
                         type: 'integer',
