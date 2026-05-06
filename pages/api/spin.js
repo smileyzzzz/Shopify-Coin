@@ -10,7 +10,7 @@ const PRIZES = [
   { name: "Bee Leaf", probability: 0.10, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/bee_leaf.png?v=1742697047" },
   { name: "Wasabi Buddy", probability: 0.10, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/wasabi.png?v=1742697047" },
   { name: "Mini Sprout", probability: 0.10, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/sprout.png?v=1742697049" },
-  
+
   { name: "Egg Tart Beary",  probability: 0.05, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/egg_tart_beary.png?v=1742697050" },
   { name: "Beary Bubbles", probability: 0.05, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/beary_bubbles.png?v=1742697046" },
   { name: "Purin", probability: 0.05, image: "https://cdn.shopify.com/s/files/1/0456/6269/9542/files/purin.png?v=1742697046" },
@@ -27,7 +27,7 @@ const PRIZES = [
 function pickPrize() {
   const rand = Math.random();
   let cumulativeProbability = 0;
-  
+
   for (const prize of PRIZES) {
     cumulativeProbability += prize.probability;
     if (rand < cumulativeProbability) {
@@ -134,7 +134,7 @@ export default async function handler(req, res) {
     try {
         const metafields = await getCustomerMetafields(customerId);
         const coinField = metafields.find(
-            (mf) => mf.namespace === "gacha" && mf.key === "coins_balance"
+            (mf) => mf.namespace === "custom" && mf.key === "coins_balance"
         );
         let coins = coinField ? parseInt(coinField.value) : 0;
 
