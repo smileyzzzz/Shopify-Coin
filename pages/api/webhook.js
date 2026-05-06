@@ -79,7 +79,7 @@ async function updateCustomerMetafield(customerId, totalCoins) {
         });
 
         const currentMetafields = response.data.metafields;
-        const existingCoinMetafield = currentMetafields.find(mf => mf.key === 'coins_balance' && mf.namespace === 'custom');
+        const existingCoinMetafield = currentMetafields.find(mf => mf.key === 'coins_balance' && mf.namespace === 'gacha');
 
         if (existingCoinMetafield) {
 
@@ -112,7 +112,7 @@ async function updateCustomerMetafield(customerId, totalCoins) {
                 },
                 data: {
                     metafield: {
-                        namespace: 'custom', // Proper namespace
+                        namespace: 'gacha', // Proper namespace
                         key: 'coins_balance',
                         value: totalCoins.toString(),
                         type: 'integer',

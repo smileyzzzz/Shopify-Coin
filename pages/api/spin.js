@@ -134,7 +134,7 @@ export default async function handler(req, res) {
     try {
         const metafields = await getCustomerMetafields(customerId);
         const coinField = metafields.find(
-            (mf) => mf.namespace === "custom" && mf.key === "coins_balance"
+            (mf) => mf.namespace === "gacha" && mf.key === "coins_balance"
         );
         let coins = coinField ? parseInt(coinField.value) : 0;
 
